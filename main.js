@@ -23,7 +23,8 @@ function initialize () {
       width: 1080,
       minWidth: 680,
       height: 840,
-      title: app.getName()
+      title: app.getName(),
+      show: false
     }
 
     if (process.platform === 'linux') {
@@ -32,6 +33,14 @@ function initialize () {
 
     mainWindow = new BrowserWindow(windowOptions)
     mainWindow.loadURL(path.join('file://', __dirname, '/index.html'))
+
+    mainWindow.webContents.on('dom-ready', () => {
+      mainWindow.setFullScreen(true)
+    })
+
+    mainWindow.webContents.on('did-finish-load', () => {
+      mainWindow.show()
+    })
 
     // Launch fullscreen with DevTools open, usage: npm run debug
     if (debug) {
