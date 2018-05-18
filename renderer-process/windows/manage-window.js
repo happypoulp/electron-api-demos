@@ -1,5 +1,18 @@
-const {BrowserWindow} = require('electron').remote
+const {BrowserWindow, getCurrentWindow} = require('electron').remote
 const path = require('path')
+
+// ISSUE #2: inconsistent maximize / unmaximize result (click 4 times on
+// button to see the problem)
+const toggleMaximizeBtn = document.getElementById("togglemaximize")
+toggleMaximizeBtn.addEventListener('click', () => {
+  const currentWin = getCurrentWindow()
+  if (currentWin.isMaximized()) {
+    currentWin.unmaximize()
+  }
+  else {
+    currentWin.maximize()
+  }
+})
 
 const manageWindowBtn = document.getElementById('manage-window')
 let win

@@ -20,6 +20,7 @@ function initialize () {
       width: 1080,
       minWidth: 680,
       height: 840,
+      frame: false,
       title: app.getName()
     }
 
@@ -36,6 +37,12 @@ function initialize () {
       mainWindow.maximize()
       require('devtron').install()
     }
+
+    // ISSUE #1: calling setPosition AFTER maximize show a grey bar above app
+    mainWindow.webContents.once('did-finish-load', () => {
+      mainWindow.maximize()
+      mainWindow.setPosition(0, 0)
+    })
 
     mainWindow.on('closed', () => {
       mainWindow = null
